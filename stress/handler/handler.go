@@ -40,6 +40,7 @@ func PostViewHandler(c *gin.Context) {
 }
 
 func PostInsertHandler(c *gin.Context) {
+	//新規投稿
 	//POST METHOD
 	if c.Request.Method != "POST" {
 		c.Status(http.StatusBadRequest)
@@ -68,8 +69,7 @@ func PostInsertHandler(c *gin.Context) {
 		return
 	}
 
-	// TODO:マイページに飛ばす
-	c.HTML(http.StatusCreated, "index.html", gin.H{})
+	c.HTML(http.StatusCreated, "mypage.html", gin.H{})
 }
 
 func ShoutHandler(c *gin.Context) {
@@ -114,7 +114,8 @@ func RegisterInsertHandler(c *gin.Context) {
 		log.Println(err)
 	}
 
-	c.Redirect(http.StatusCreated, "/mypage")
+	c.HTML(http.StatusCreated, "mypage.html", gin.H{})
+
 }
 
 func RegisterViewHandler(c *gin.Context) {
@@ -173,7 +174,7 @@ func LoginHandler(c *gin.Context) {
 	}
 
 	log.Println("Login")
-	c.Redirect(http.StatusFound, "/mypage")
+	c.HTML(http.StatusCreated, "mypage.html", gin.H{})
 }
 
 func LoginViewHandler(c *gin.Context) {
@@ -181,4 +182,17 @@ func LoginViewHandler(c *gin.Context) {
 		c.Status(http.StatusBadRequest)
 	}
 	c.HTML(http.StatusOK, "login.html", gin.H{})
+}
+func MyPageHandler(c *gin.Context) {
+	sess, err := sessions.Get(c.Request, "user")
+	if err != nil {
+		log.Println(err)
+	}
+
+	if sess.Values["id"] == nil {
+		c.HTML(http.StatusOK, "login.html", gin.H{})
+		return
+	}
+
+	c.HTML(http.StatusOK, "mypage.html", gin.H{})
 }
