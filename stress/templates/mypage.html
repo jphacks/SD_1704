@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyPage</title>
+
+
+  <!-- Semantic UI を読み込む -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+<!-- Vue.js を読み込む -->
+<script src="https://unpkg.com/vue@2.3.3/dist/vue.js"></script>
+
+<script>
+function notifyMe() {
+  // ブラウザが通知をサポートしているか確認する
+  if (!("Notification" in window)) {
+    alert("このブラウザはシステム通知をサポートしていません");
+  }
+
+  // すでに通知の許可を得ているか確認する
+  else if (Notification.permission === "granted") {
+    // 許可を得ている場合は、通知を作成する
+    var notification = new Notification("Hi there!");
+  }
+
+  // 許可を得ていない場合は、ユーザに許可を求めなければならない
+  else if (Notification.permission !== 'denied') {
+    Notification.requestPermission(function (permission) {
+      // ユーザが許可した場合は、通知を作成する
+      if (permission === "granted") {
+        var notification = new Notification("Hi there!");
+      }
+    });
+  }
+
+  // 最後に、ユーザが通知を拒否した場合は、これ以上ユーザに
+  // 迷惑をかけてはいけないことを尊重すべきです。
+}
+</script>
+
+
+</head>
+<body>
+  {{template "header".}}
+  {{template "global-navigator".}}
+
+  <div id="app">
+    <script>
+    notifyMe()
+    </script>
+
+  </div>
+
+
+    {{template "footer".}}
+</body>
+</html>
+
+<script>
+var vm = new Vue({
+el: "#app", // Vue.jsを使うタグのIDを指定
+data: {
+  // Vue.jsで使う変数はここに記述する
+    userId: localStorage.getItem("token")
+},
+methods: {
+  // Vue.jsで使う関数はここで記述する
+
+},
+created: function() {
+  // Vue.jsの読み込みが完了したときに実行する処理はここに記述する
+
+},
+computed: {
+  // 計算した結果を変数として利用したいときはここに記述する
+
+}
+});
+
+</script>
