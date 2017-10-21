@@ -12,7 +12,7 @@ func Init() {
 
 	r.GET("/", handler.RootHandler)
 	r.GET("/post", handler.PostViewHandler)
-	r.POST("/post", handler.PostRegisterHandler)
+	r.POST("/post", handler.PostInsertHandler)
 
 	r.Run(":" + config.GetInstance().PORT) // listen and serve on 0.0.0.0:8080
 }

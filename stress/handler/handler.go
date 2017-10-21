@@ -45,7 +45,7 @@ func PostViewHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "post.html", gin.H{})
 }
 
-func PostRegisterHandler(c *gin.Context) {
+func PostInsertHandler(c *gin.Context) {
 	//POST METHOD
 	if c.Request.Method != "GET" {
 		c.Status(http.StatusBadRequest)
