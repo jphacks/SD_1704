@@ -21,7 +21,6 @@ func GetUserByUserId(db *sql.DB, Id int64) (User, error) {
 	q := `select * from users where id=$1`
 
 	var user User
-
 	stmt, err := db.Prepare(q)
 	if err != nil {
 		return user, err
