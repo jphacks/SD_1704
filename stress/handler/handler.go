@@ -7,6 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jphacks/SD_1704/stress/database"
 	"github.com/jphacks/SD_1704/stress/model"
+
+	"github.com/jphacks/SD_1704/stress/sessions"
 )
 
 func RootHandler(c *gin.Context) {
@@ -22,14 +24,6 @@ func RootHandler(c *gin.Context) {
 	//if err != nil {
 	//	log.Println(err)
 	//}
-	//
-	//user, err := model.GetUserByUserId(database.GetInstance().DB, 1)
-	//if err != nil {
-	//	log.Println(err)
-	//}
-	//
-	//log.Println(user)
-	//
 
 	c.HTML(http.StatusOK, "index.html", gin.H{})
 }
@@ -100,6 +94,24 @@ func LoginHandler(c *gin.Context) {
 	if !isExists {
 		log.Println("not exists")
 		c.Redirect(http.StatusFound, "/login")
+		return
+	}
+
+	user, err := model.GetUserByEmailAndPass(database.GetInstance().DB, email, password)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	sess, err := sessions.Get(c.Request, "user")
+	if err != nil {
+		log.Println(err)
+	}
+
+	sess.Values["id"] = user.ID
+
+	if err := sessions.Save(c.Request, c.Writer, sess); err != nil {
+		log.Printf("/login: save session failed: %s", err)
 		return
 	}
 
