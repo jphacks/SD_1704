@@ -6,6 +6,24 @@
     {{template "header".}}
 
     <style media="screen">
+    #canvas {
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background-color: #fff;
+        z-index: 10;
+    }
+
+    #shout-page{
+        position:absolute;
+        top:0;
+        left:0;
+        z-index: 100;
+        width: 100%;
+    }
+
     #sound-volume-progress,
     #sound-volume-progress .bar{
         height: 128px;
@@ -63,14 +81,15 @@
 <body>
     {{template "global-navigator".}}
 
-    <div id="shout-page">
+    <canvas id="canvas"></canvas>
+    <section id="shout-page">
 
         <div class="ui two column stackable grid">
             <div class="three wide column none">
                 <div class="ui segment"></div>
             </div>
             <div class="ten wide column">
-                <div class="ui segment">
+                <div class="ui segment word-container">
                     <!-- content -->
                     <p id="word">
                         {{ .post.Description }}
@@ -91,11 +110,23 @@
         </div>
 
 
-    </div>
+    </section>
 
     <script type="text/javascript">
     'use strict';
+
     $(function(){
+
+        var canCreateHanabi = false;
+
+        /***************************    domの位置設定   ************************************/
+
+        (function(){
+            var y = window.innerHeight;
+            $(".word-container").offset({ top: y / 3.2, left: "auto" });
+        })();
+
+        /***************************    ここから音声の取得と描画   ************************************/
 
         /**
         * 音声を取得して描画
@@ -103,12 +134,7 @@
         */
         (function(){
 
-            var ctx,
-            analyser,
-            frequencies,
-            getByteFrequencyDataAverage,
-            elVolume,
-            draw;
+            var ctx,analyser,frequencies,getByteFrequencyDataAverage,elVolume,draw;
 
             window.AudioContext = window.AudioContext || window.webkitAudioContext;
             ctx = new AudioContext();
@@ -137,6 +163,11 @@
             // 音量を表示する要素
             elVolume = document.getElementById('volume');
 
+            //一同合格したらもう処理はしない
+            if(canCreateHanabi){
+                return;
+            }
+
             // 可能な限り高いフレームレートで音量を取得し、表示を更新する
             (draw = function() {
                 var value = Math.floor(getByteFrequencyDataAverage());
@@ -144,12 +175,249 @@
                 // Semantic ui progress bar に描画
                 $("#sound-volume-progress").progress('set progress', value);
 
+                // 合格判定
+                if(value > 85){
+                    canCreateHanabi = true;
+                    initHanabi();
+                    changeColorWordContainer();
+                    return;
+                }
                 requestAnimationFrame(draw);
             })();
 
         })();
-    });
-    </script>
-    {{template "footer" .}}
-</body>
+
+        // 合格したときの色　変更
+        function changeColorWordContainer(){
+            $(".word-container").css("background-color", "rgba(0, 0, 0, 0.03)");
+            $("#word").css("color", "rgba(255, 255, 255, 0.8)");
+            $("#sound-volume-progress").css("border", "1px solid #ddd");
+        }
+
+        /***************************    ここから花火処理   ************************************/
+
+        // キャンバスの生成
+        var canvas = document.getElementById("canvas"),
+        context = canvas.getContext('2d'),
+        particles = [], // 花の数
+        rockets = [], // 打ち上げの数
+        MAX_PARTICLES = 400;
+
+        var SCREEN_WIDTH = window.innerWidth,
+        SCREEN_HEIGHT = window.innerHeight;
+
+        function initHanabi(){
+            document.body.appendChild(canvas);
+            canvas.width = SCREEN_WIDTH;
+            canvas.height = SCREEN_HEIGHT;
+            setInterval(launch, 800);
+            setInterval(rising, 1000 / 50);
+        }
+
+        function launch() {
+            var max = window.innerWidth;
+            var min = 0;
+            var x = Math.random() * (max - min) + min
+            fireWorkForm(x);
+        }
+
+        function fireWorkForm(x) {
+            if (rockets.length < 3) {
+                var rocket = new Rocket(x);
+                rocket.explosionColor = Math.floor(Math.random() * 360 / 10) * 10;
+                rocket.vel.y = Math.random() * -3 - 4;
+                rocket.vel.x = Math.random() * 6 - 3;
+                rocket.size = 4;
+                rocket.shrink = 0.999;
+                rocket.gravity = 0.01;
+                rockets.push(rocket);
+            }
+        }
+
+        function rising() {
+            // スクリーンリサイズ
+            if (SCREEN_WIDTH !== window.innerWidth) {
+                canvas.width = SCREEN_WIDTH = window.innerWidth;
+            }
+            if (SCREEN_HEIGHT !== window.innerHeight) {
+                canvas.height = SCREEN_HEIGHT = window.innerHeight;
+            }
+
+            // キャンバスの初期化
+            context.fillStyle = "rgba(0, 0, 0, 0.03)";
+            context.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+            var existingRockets = [];
+
+            rockets.forEach( function(rocket){
+                // レンダーの更新
+                rocket.update();
+                rocket.render(context);
+
+                // ロケットが真ん中よりも高い場合は1％のランダムチャンス
+                var randomChance = rocket.pos.y < (SCREEN_HEIGHT * 2 / 3) ? (Math.random() * 100 <= 1) : false;
+
+                // 爆発判定
+                if (rocket.pos.y < SCREEN_HEIGHT / 5 || rocket.vel.y >= 0 || randomChance) {
+                    rocket.explode(); // 発火
+                } else {
+                    existingRockets.push(rocket); // 次回
+                }
+            })
+
+            rockets = existingRockets;
+
+            var existingParticles = [];
+
+            particles.forEach( function(particle){
+                particle.update();
+                // レンダリング可能なパーティクルをレンダリングして保存する
+                if (particle.exists()) {
+                    particle.render(context);
+                    existingParticles.push(particle);
+                }
+            });
+
+            // 配列を既存のパーティクルで更新する - 古いパーティクルをガベージコレクションする必要があります
+            particles = existingParticles;
+
+            while (particles.length > MAX_PARTICLES) {
+                particles.shift();
+            }
+        }
+
+        function Particle(pos) {
+            this.pos = {
+                x: pos ? pos.x : 0,
+                y: pos ? pos.y : 0
+            };
+            this.vel = {
+                x: 0,
+                y: 0
+            };
+            this.shrink = .01; // 縮み
+            this.size = 10; // 花火の大きさ
+            this.resistance = 1; // 抵抗　花火の軌跡、数が多いと早くなる
+            this.gravity = 0.5; // 重力
+            this.flick = false;
+            this.alpha = 1;
+            this.fade = 0;
+            this.color = 0;
+        }
+
+        Particle.prototype.update = function() {
+            // 抵抗を加える
+            this.vel.x *= this.resistance;
+            this.vel.y *= this.resistance;
+            // 重力によって下げる
+            this.vel.y += this.gravity;
+            // 速度に基づいて位置を更新する
+            this.pos.x += this.vel.x;
+            this.pos.y += this.vel.y;
+            // 縮ませる
+            this.size *= this.shrink;
+        };
+
+        Particle.prototype.render = function(c) {
+            if (!this.exists()) {
+                return;
+            }
+            c.save();
+
+            // 描画が重なると色が1に近くなる
+            c.globalCompositeOperation = 'lighter';
+
+            var x = this.pos.x,
+            y = this.pos.y,
+            r = this.size / 2;
+
+            var gradient = c.createRadialGradient(x, y, 0.1, x, y, r);
+            gradient.addColorStop(0.1, "rgba(255,255,255," + this.alpha + ")");
+            gradient.addColorStop(0.8, "hsla(" + this.color + ", 100%, 50%, " + this.alpha + ")");
+            gradient.addColorStop(1, "hsla(" + this.color + ", 100%, 50%, 0.1)");
+
+            c.fillStyle = gradient;
+
+            c.beginPath();
+            c.arc(this.pos.x, this.pos.y, this.flick ? Math.random() * this.size : this.size, 0, Math.PI * 2, true);
+            c.closePath();
+            c.fill();
+
+            c.restore();
+        };
+
+        Particle.prototype.exists = function() {
+            return (this.alpha >= 0.1 && this.size >= 1);
+        };
+
+        function Rocket(x) {
+            Particle.apply(this, [{
+                x: x,
+                y: SCREEN_HEIGHT}]);
+
+                this.explosionColor = 0;
+        }
+
+        Rocket.prototype = new Particle();
+        Rocket.prototype.constructor = Rocket;
+
+        Rocket.prototype.explode = function() {
+            var count = Math.random() * 10 + 80;
+
+            for (var i = 0; i < count; i++) {
+                var particle = new Particle(this.pos);
+                var angle = Math.random() * Math.PI * 2;
+
+                // emulate 3D effect by using cosine and put more particles in the middle
+                var speed = Math.cos(Math.random() * Math.PI / 2) * 15;
+
+                particle.vel.x = Math.cos(angle) * speed;
+                particle.vel.y = Math.sin(angle) * speed;
+
+                particle.size = 7; // 花火の大きさ
+
+                particle.gravity = 0.3; // 下に伸びる
+                particle.resistance = 0.92;
+                particle.shrink = Math.random() * 0.05 + 0.91;
+
+                particle.flick = true;
+                particle.color = this.explosionColor;
+
+                particles.push(particle);
+            }
+        };
+
+        Rocket.prototype.render = function(c) {
+            if (!this.exists()) {
+                return;
+            }
+
+            c.save();
+
+            c.globalCompositeOperation = 'lighter';
+
+            var x = this.pos.x,
+            y = this.pos.y,
+            r = this.size / 2;
+
+            var gradient = c.createRadialGradient(x, y, 0.1, x, y, r);
+            var rgba = "rgba(255, 255, 200 ," + this.alpha + ")";
+            gradient.addColorStop(0.1, rgba);
+            gradient.addColorStop(1, rgba);
+
+            c.fillStyle = gradient;
+
+            c.beginPath();
+            c.arc(this.pos.x, this.pos.y, this.flick
+                ? Math.random() * this.size / 2 + this.size / 2 : this.size, 0, Math.PI * 2, true);
+                c.closePath();
+                c.fill();
+
+                c.restore();
+            };
+
+        });
+        </script>
+        {{template "footer" .}}
+    </body>
 </html>
