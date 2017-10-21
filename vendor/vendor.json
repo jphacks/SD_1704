@@ -15,6 +15,12 @@
 			"revisionTime": "2017-10-02T20:02:53Z"
 		},
 		{
+			"checksumSHA1": "66pT6Eh168IXicc0tmkhC4pjSyU=",
+			"path": "github.com/garyburd/go-oauth/examples/session",
+			"revision": "4cff9ef7b7003713efa191899dbaab8fa75e3e73",
+			"revisionTime": "2017-10-04T15:14:16Z"
+		},
+		{
 			"checksumSHA1": "Cmfv2KnhEhnmmdn0gZDDTH3BZxM=",
 			"path": "github.com/gin-contrib/sse",
 			"revision": "22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae",
@@ -105,10 +111,40 @@
 			"revisionTime": "2017-06-12T17:47:53Z"
 		},
 		{
+			"checksumSHA1": "Thg9sicXr23/02y0VqmmJoEZIzI=",
+			"path": "github.com/gorilla/context",
+			"revision": "08b5f424b9271eedf6f9f0ce86cb9396ed337a42",
+			"revisionTime": "2016-08-17T18:46:32Z"
+		},
+		{
+			"checksumSHA1": "Ij5Z+koMayNWjXZAJM3PY9RENXA=",
+			"path": "github.com/gorilla/securecookie",
+			"revision": "e59506cc896acb7f7bf732d4fdf5e25f7ccd8983",
+			"revisionTime": "2017-02-24T19:38:04Z"
+		},
+		{
+			"checksumSHA1": "OqN0WpCLK+p+reqwramDl7+cdOc=",
+			"path": "github.com/gorilla/sessions",
+			"revision": "a3acf13e802c358d65f249324d14ed24aac11370",
+			"revisionTime": "2017-10-08T21:47:40Z"
+		},
+		{
 			"checksumSHA1": "MWmIKeUU5J3ut4/eJcLLw0RiZLg=",
 			"path": "github.com/json-iterator/go",
 			"revision": "6240e1e7983a85228f7fd9c3e1b6932d46ec58e2",
 			"revisionTime": "2017-10-10T00:57:02Z"
+		},
+		{
+			"checksumSHA1": "q6lNs4X3WJ4/yT6T/1yfwJONkpk=",
+			"path": "github.com/lib/pq",
+			"revision": "456514e2defec52e0cd37f90ccf17ec8b28295e2",
+			"revisionTime": "2017-10-19T22:30:07Z"
+		},
+		{
+			"checksumSHA1": "AU3fA8Sm33Vj9PBoRPSeYfxLRuE=",
+			"path": "github.com/lib/pq/oid",
+			"revision": "456514e2defec52e0cd37f90ccf17ec8b28295e2",
+			"revisionTime": "2017-10-19T22:30:07Z"
 		},
 		{
 			"checksumSHA1": "jQv+QXGIG0pcUiZZcoWlL2DYYyQ=",
