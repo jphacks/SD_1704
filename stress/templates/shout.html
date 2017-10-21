@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {{template "header".}}
+
+    <style media="screen">
+    #sound-volume-progress,
+    #sound-volume-progress .bar{
+        height: 128px;
+    }
+    #shout-page p{
+        text-align: center;
+        font-size: 64px;
+        padding: 0;
+        margin: 0;
+        margin-bottom: 25px;
+    }
+    #shout-page .none{
+        opacity: 0;
+    }
+    #shout-page .ui .segment{
+        box-shadow: none;
+        border: none;
+    }
+
+    @media screen and (max-width: 880px) {
+        #shout-page p{
+            font-size: 56px;
+        }
+
+        #sound-volume-progress,
+        #sound-volume-progress .bar{
+            height: 100px;
+        }
+    }
+
+    @media screen and (max-width: 767px) {
+        #shout-page p{
+            font-size: 44px;
+        }
+
+        #sound-volume-progress,
+        #sound-volume-progress .bar{
+            height: 82px;
+        }
+    }
+    @media screen and (max-width: 407px) {
+        #shout-page p{
+            font-size: 35px;
+        }
+
+        #sound-volume-progress,
+        #sound-volume-progress .bar{
+            height: 64px;
+        }
+    }
+
+    </style>
+
+</head>
+<body>
+    {{template "global-navigator".}}
+
+    <div id="shout-page">
+
+        <div class="ui two column stackable grid">
+            <div class="three wide column none">
+                <div class="ui segment"></div>
+            </div>
+            <div class="ten wide column">
+                <div class="ui segment">
+                    <!-- content -->
+                    <p id="word">
+                        {{ .post.Description }}
+                    </p>
+
+                    <div class="ui indicating progress" data-value="1" data-total="100" id="sound-volume-progress">
+                        <div class="bar">
+                            <div class="progress"></div>
+                        </div>
+                    </div>
+
+                    <!-- content end-->
+                </div>
+            </div>
+            <div class="three wide column none">
+                <div class="ui segment"></div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script type="text/javascript">
+    'use strict';
+    $(function(){
+
+        /**
+        * 音声を取得して描画
+        * @return {[type]} [description]
+        */
+        (function(){
+
+            var ctx,
+            analyser,
+            frequencies,
+            getByteFrequencyDataAverage,
+            elVolume,
+            draw;
+
+            window.AudioContext = window.AudioContext || window.webkitAudioContext;
+            ctx = new AudioContext();
+
+            analyser = ctx.createAnalyser();
+            frequencies = new Uint8Array(analyser.frequencyBinCount);
+
+            getByteFrequencyDataAverage = function() {
+                analyser.getByteFrequencyData(frequencies);
+                return frequencies.reduce(function(previous, current) {
+                    return previous + current;
+                }) / analyser.frequencyBinCount;
+            };
+
+            navigator.mediaDevices.getUserMedia({audio: true})
+            .then(function(stream) {
+                window.hackForMozzila = stream;
+                ctx.createMediaStreamSource(stream)
+                // AnalyserNodeに接続
+                .connect(analyser);
+            })
+            .catch(function(err) {
+                console.log(err.message);
+            });
+
+            // 音量を表示する要素
+            elVolume = document.getElementById('volume');
+
+            // 可能な限り高いフレームレートで音量を取得し、表示を更新する
+            (draw = function() {
+                var value = Math.floor(getByteFrequencyDataAverage());
+
+                // Semantic ui progress bar に描画
+                $("#sound-volume-progress").progress('set progress', value);
+
+                requestAnimationFrame(draw);
+            })();
+
+        })();
+    });
+    </script>
+    {{template "footer" .}}
+</body>
+</html>

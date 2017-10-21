@@ -27,3 +27,18 @@ func GetPostById(db *sql.DB, Id int64) (Post, error) {
 	err = stmt.QueryRow(Id).Scan(&post.ID, &post.Description, &post.UserId, &post.Created)
 	return post, err
 }
+
+func GetRandomPost(db *sql.DB) (Post, error) {
+	q := `SELECT * FROM posts ORDER BY random() LIMIT 1`
+
+	var post Post
+
+	stmt, err := db.Prepare(q)
+	if err != nil {
+		return post, err
+	}
+
+	err = stmt.QueryRow().Scan(&post.ID, &post.Description, &post.UserId, &post.Created)
+	return post, err
+
+}

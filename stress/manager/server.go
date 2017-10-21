@@ -8,11 +8,18 @@ import (
 
 func Init() {
 	r := gin.Default()
+
 	r.LoadHTMLGlob("templates/*.html")
 
 	r.GET("/", handler.RootHandler)
+
 	r.GET("/post", handler.PostViewHandler)
 	r.POST("/post", handler.PostInsertHandler)
+
+	r.GET("/shout", handler.ShoutHandler)
+
+	r.GET("/register", handler.RegisterViewHandler)
+	r.POST("/register", handler.RegisterInsertHandler)
 
 	r.Run(":" + config.GetInstance().PORT) // listen and serve on 0.0.0.0:8080
 }
