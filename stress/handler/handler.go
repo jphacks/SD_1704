@@ -47,12 +47,28 @@ func PostViewHandler(c *gin.Context) {
 
 func PostInsertHandler(c *gin.Context) {
 	//POST METHOD
-	if c.Request.Method != "GET" {
+	if c.Request.Method != "POST" {
 		c.Status(http.StatusBadRequest)
 		return
 	}
 
+	text, _ := c.GetPostForm("text")
 
+	if text == "" {
+		log.Println("empty")
+		return
+	}
+
+	// TODO: セッションを使う
+	err := model.InsertPost(database.GetInstance().DB, text, 1)
+	if err != nil {
+		log.Println(err)
+		c.Redirect(http.StatusFound, "/post")
+		return
+	}
+
+	// TODO:マイページに飛ばす
+	c.HTML(http.StatusCreated, "index.html", gin.H{})
 }
 
 func ShoutHandler(c *gin.Context) {
@@ -74,6 +90,8 @@ func RegisterInsertHandler(c *gin.Context) {
 		c.Status(http.StatusBadRequest)
 		return
 	}
+
+	// TODO: 登録時もセッションを保つ
 
 	nickname, _ := c.GetPostForm("nickname")
 	email, _ := c.GetPostForm("email")

@@ -3,8 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {{template "header" .}}
 </head>
 <body>
-register
+{{template "global-navigator".}}
+
+<div class="ui two column stackable grid">
+    <div class="three wide column none">
+    </div>
+    <div class="ten wide column">
+        <form class="ui form" method="post" action="/post">
+            <div class="field">
+                <label>叫ばせる言葉</label>
+                <input type="text" name="text" placeholder="叫ばせる言葉">
+            </div>
+
+            <button class="ui button" type="submit">登録</button>
+        </form>
+    </div>
+    <div class="three wide column none">
+    </div>
+</div>
+
+
+{{template "footer" .}}
 </body>
 </html>
