@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {{template "header" .}}
+</head>
+<body>
+{{template "global-navigator".}}
+
+<div class="ui two column stackable grid">
+    <div class="three wide column none">
+    </div>
+    <div class="ten wide column">
+        <form class="ui form" method="post" action="/login">
+            <div class="field">
+                <label>メールアドレス</label>
+                <input type="text" name="email" placeholder="メールアドレス">
+            </div>
+            <div class="field">
+                <label>パスワード</label>
+                <input type="text" name="password" placeholder="パスワード">
+            </div>
+
+            <button class="ui button" type="submit">ログイン</button>
+        </form>
+    </div>
+    <div class="three wide column none">
+    </div>
+</div>
+
+
+{{template "footer" .}}
+</body>
+</html>

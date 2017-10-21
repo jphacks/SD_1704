@@ -74,3 +74,42 @@ func RegisterViewHandler(c *gin.Context) {
 	}
 	c.HTML(http.StatusOK, "register.html", gin.H{})
 }
+
+func LoginHandler(c *gin.Context) {
+	if c.Request.Method != "POST" {
+		c.Status(http.StatusBadRequest)
+		return
+	}
+
+	email, _ := c.GetPostForm("email")
+	password, _ := c.GetPostForm("password")
+
+	log.Printf("email: %s, pass: %s\n", email, password)
+
+	if email == "" || password == "" {
+		log.Println("empty")
+		c.Redirect(http.StatusFound, "/login")
+		return
+	}
+
+	isExists, err := model.IsUserExists(database.GetInstance().DB, email, password)
+	if err != nil {
+		log.Println(err)
+	}
+
+	if !isExists {
+		log.Println("not exists")
+		c.Redirect(http.StatusFound, "/login")
+		return
+	}
+
+	log.Println("Login")
+	c.Redirect(http.StatusFound, "/mypage")
+}
+
+func LoginViewHandler(c *gin.Context) {
+	if c.Request.Method != "GET" {
+		c.Status(http.StatusBadRequest)
+	}
+	c.HTML(http.StatusOK, "login.html", gin.H{})
+}
