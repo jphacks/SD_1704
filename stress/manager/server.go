@@ -12,6 +12,10 @@ func Init() {
 	r.LoadHTMLGlob("templates/*.html")
 
 	r.GET("/", handler.RootHandler)
+
+	r.GET("/post", handler.PostViewHandler)
+	r.POST("/post", handler.PostInsertHandler)
+
 	r.GET("/shout", handler.ShoutHandler)
 
 	r.GET("/register", handler.RegisterViewHandler)
@@ -19,8 +23,6 @@ func Init() {
 
 	r.GET("/login", handler.LoginViewHandler)
 	r.POST("/login", handler.LoginHandler)
-
-	r.POST("/post")
 
 	r.Run(":" + config.GetInstance().PORT) // listen and serve on 0.0.0.0:8080
 }

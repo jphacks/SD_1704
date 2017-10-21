@@ -28,7 +28,52 @@ func RootHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", gin.H{})
 }
 
+func PostViewHandler(c *gin.Context) {
+	// 投稿画面
+	if c.Request.Method != "GET" {
+		c.Status(http.StatusBadRequest)
+		return
+	}
+
+	//GET METHOD
+	c.HTML(http.StatusOK, "post.html", gin.H{})
+}
+
+func PostInsertHandler(c *gin.Context) {
+	//POST METHOD
+	if c.Request.Method != "POST" {
+		c.Status(http.StatusBadRequest)
+		return
+	}
+
+	text, _ := c.GetPostForm("text")
+
+	if text == "" {
+		log.Println("empty")
+		return
+	}
+
+	sess, err := sessions.Get(c.Request, "user")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	userId := sess.Values["id"].(int64)
+
+	err = model.InsertPost(database.GetInstance().DB, text, userId)
+	if err != nil {
+		log.Println(err)
+		c.Redirect(http.StatusFound, "/post")
+		return
+	}
+
+	// TODO:マイページに飛ばす
+	c.HTML(http.StatusCreated, "index.html", gin.H{})
+}
+
 func ShoutHandler(c *gin.Context) {
+	// 叫ぶ画面
 
 	post, err := model.GetRandomPost(database.GetInstance().DB)
 	if err != nil {
@@ -44,7 +89,10 @@ func ShoutHandler(c *gin.Context) {
 func RegisterInsertHandler(c *gin.Context) {
 	if c.Request.Method != "POST" {
 		c.Status(http.StatusBadRequest)
+		return
 	}
+
+	// TODO: 登録時もセッションを保つ
 
 	nickname, _ := c.GetPostForm("nickname")
 	email, _ := c.GetPostForm("email")
@@ -65,6 +113,7 @@ func RegisterInsertHandler(c *gin.Context) {
 func RegisterViewHandler(c *gin.Context) {
 	if c.Request.Method != "GET" {
 		c.Status(http.StatusBadRequest)
+		return
 	}
 	c.HTML(http.StatusOK, "register.html", gin.H{})
 }
