@@ -109,6 +109,7 @@ func LoginHandler(c *gin.Context) {
 	}
 
 	sess.Values["id"] = user.ID
+	sess.Values["nickname"] = user.Nickname
 
 	if err := sessions.Save(c.Request, c.Writer, sess); err != nil {
 		log.Printf("/login: save session failed: %s", err)
