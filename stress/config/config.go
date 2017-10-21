@@ -6,13 +6,15 @@ import (
 )
 
 type configManager struct {
-	PORT string
+	PORT         string
+	DATABASE_URL string
 }
 
 var sharedInstance *configManager = newConfigManager()
 
 func newConfigManager() *configManager {
 	port := os.Getenv("PORT")
+	dbUrl := os.Getenv("DATABASE_URL")
 
 	//FIXME: sliceを使わなくてもいいようにしたい
 	slice := []string{port}
@@ -21,7 +23,7 @@ func newConfigManager() *configManager {
 			panic("[FATAL]" + reflect.ValueOf(configManager{}).Type().Field(i).Name + " is not assign")
 		}
 	}
-	return &configManager{port}
+	return &configManager{port, dbUrl}
 }
 
 func GetInstance() *configManager {
