@@ -21,7 +21,6 @@ func newConfigManager() *configManager {
 			panic("[FATAL]" + reflect.ValueOf(configManager{}).Type().Field(i).Name + " is not assign")
 		}
 	}
-git
 	return &configManager{port}
 }
 
