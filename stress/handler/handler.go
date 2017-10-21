@@ -35,3 +35,19 @@ func RootHandler(c *gin.Context) {
 
 	c.HTML(http.StatusOK, "index.html", gin.H{})
 }
+
+func PostViewHandler(c *gin.Context) {
+	//GET METHOD
+	if c.Request.Method != "POST" {
+		c.Status(http.StatusBadRequest)
+	}
+
+	c.HTML(http.StatusOK, "post.html", gin.H{})
+}
+
+func PostRegisterHandler(c *gin.Context) {
+	//POST METHOD
+	if c.Request.Method != "GET" {
+		c.Status(http.StatusBadRequest)
+	}
+}
