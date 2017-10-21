@@ -79,10 +79,17 @@ func ShoutHandler(c *gin.Context) {
 	if err != nil {
 		log.Println(err)
 	}
-	log.Println(post)
+
+	userId := post.UserId
+
+	user, err := model.GetUserByUserId(database.GetInstance().DB, userId)
+	if err != nil {
+		log.Println(err)
+	}
 
 	c.HTML(http.StatusOK, "shout.html", gin.H{
-		"post": post,
+		"post":        post,
+		"createrName": user.Nickname,
 	})
 }
 

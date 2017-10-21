@@ -13,7 +13,7 @@ type User struct {
 type Post struct {
 	ID          int64
 	Description string
-	UserId      string
+	UserId      int64
 	Created     *time.Time
 }
 
