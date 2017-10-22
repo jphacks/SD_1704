@@ -44,6 +44,12 @@ function notifyMe() {
   {{template "header".}}
   {{template "global-navigator".}}
 
+  {{ range .posts }}
+    <p>{{ .Description }}</p>
+    <p>{{ .Created }}</p>
+  <hr>
+  {{ end }}
+
   <div id="app">
     <script>
     notifyMe()

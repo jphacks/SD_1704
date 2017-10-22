@@ -249,14 +249,18 @@ func MyPageHandler(c *gin.Context) {
 	}
 
 	userId := sess.Values["id"]
-	uId, err := strconv.ParseInt(userId, 10, 64)
+
+	//uId, err := strconv.ParseInt(, 10, 64)
+	//if err != nil {
+	//	log.Println(err)
+	//}
+
+	posts, err := model.GetPostsByUserId(database.GetInstance().DB, userId.(int64))
 	if err != nil {
 		log.Println(err)
 	}
-	posts, err := model.GetPostsByUserId(database.GetInstance().DB, uId)
-	if err != nil {
-		log.Println(err)
-	}
+
+	log.Println(posts)
 
 	c.HTML(http.StatusOK, "mypage.html", gin.H{
 		"posts": posts,
