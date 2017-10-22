@@ -190,10 +190,16 @@
 
         // 合格したときの色　変更
         function changeColorWordContainer(){
+            var WHITE = "rgba(255, 255, 255, 0.8)";
             $(".word-container").css("background-color", "rgba(0, 0, 0, 0.03)");
-            $("#word").css("color", "rgba(255, 255, 255, 0.8)");
-            $(".createName").css("color", "rgba(255, 255, 255, 0.8)");
+            $("#word").css("color", WHITE);
+            $(".createName").css("color", WHITE);
+            $(".top-munu a").css("color", WHITE);
+            $(".top-munu p").css("color", WHITE);
+            $(".top-munu .down").css("color", WHITE);
+            $("header nav").css("border-bottom", "2px solid " + WHITE);
             $("#sound-volume-progress").css("border", "1px solid #ddd");
+            $(".top-munu .active").css("border-color", WHITE);
         }
 
         /***************************    ここから花火処理   ************************************/
