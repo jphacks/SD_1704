@@ -5,12 +5,16 @@
     <title>Title</title>
     {{template "header".}}
     <style>
-        #message {
+        .content-container #message {
             text-align: center;
             font-size: 64px;
             padding: 0;
             margin: 0;
             margin-bottom: 25px;
+        }
+        .content-container a.button {
+            border-radius: 50px;
+            padding: 30px 100px;
         }
     </style>
 </head>
@@ -18,7 +22,7 @@
     {{template "global-navigator".}}
     <div class="ui two column stackable grid">
         <div class="three wide column none"></div>
-        <div class="ten wide column center aligned">
+        <div class="ten wide column center aligned content-container">
             <h1 id="message">あなたのストレスを
                 <br>声で発散しませんか？
             </h1>
@@ -28,6 +32,14 @@
         </div>
         <div class="three wide column none"></div>
     </div>
+    <script type="text/javascript">
+        $(function(){
+            (function(){
+                var y = window.innerHeight;
+                $(".content-container").offset({ top: y / 3.2, left: "auto" });
+            })();
+        });
+    </script>
     {{template "footer".}}
 </body>
 </html>
