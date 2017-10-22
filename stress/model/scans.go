@@ -11,6 +11,7 @@ func ScanUser(r *sql.Row) (User, error) {
 		&s.Nickname,
 		&s.Email,
 		&s.Password,
+		&s.Created,
 	); err != nil {
 		return User{}, err
 	}
@@ -27,6 +28,7 @@ func ScanUsers(rs *sql.Rows) ([]User, error) {
 			&s.Nickname,
 			&s.Email,
 			&s.Password,
+			&s.Created,
 		); err != nil {
 			return nil, err
 		}
@@ -44,6 +46,7 @@ func ScanPost(r *sql.Row) (Post, error) {
 		&s.ID,
 		&s.Description,
 		&s.UserId,
+		&s.Created,
 	); err != nil {
 		return Post{}, err
 	}
@@ -59,6 +62,7 @@ func ScanPosts(rs *sql.Rows) ([]Post, error) {
 			&s.ID,
 			&s.Description,
 			&s.UserId,
+			&s.Created,
 		); err != nil {
 			return nil, err
 		}
@@ -76,6 +80,7 @@ func ScanNotification(r *sql.Row) (Notification, error) {
 		&s.ID,
 		&s.Time,
 		&s.Set,
+		&s.Created,
 	); err != nil {
 		return Notification{}, err
 	}
@@ -91,6 +96,7 @@ func ScanNotifications(rs *sql.Rows) ([]Notification, error) {
 			&s.ID,
 			&s.Time,
 			&s.Set,
+			&s.Created,
 		); err != nil {
 			return nil, err
 		}
@@ -101,3 +107,4 @@ func ScanNotifications(rs *sql.Rows) ([]Notification, error) {
 	}
 	return structs, nil
 }
+

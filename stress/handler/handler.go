@@ -13,6 +13,12 @@ import (
 
 func RootHandler(c *gin.Context) {
 
+	users, err := model.GetPostsByUserId(database.GetInstance().DB, 1)
+	if err != nil {
+		log.Println(err)
+	}
+	log.Println(users)
+
 	c.HTML(http.StatusOK, "index.html", gin.H{})
 }
 
