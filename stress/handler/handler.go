@@ -195,6 +195,7 @@ func LoginViewHandler(c *gin.Context) {
 	}
 	c.HTML(http.StatusOK, "login.html", gin.H{})
 }
+
 func MyPageHandler(c *gin.Context) {
 	sess, err := sessions.Get(c.Request, "user")
 	if err != nil {
@@ -207,4 +208,24 @@ func MyPageHandler(c *gin.Context) {
 	}
 
 	c.HTML(http.StatusOK, "mypage.html", gin.H{})
+}
+
+func LogoutHandler(c *gin.Context) {
+	sess, err := sessions.Get(c.Request, "user")
+	if err != nil {
+		log.Println(err)
+	}
+
+	sess.Values["id"] = nil
+	sess.Values["nickname"] = nil
+
+	if err := sessions.Save(c.Request, c.Writer, sess); err != nil {
+		log.Printf("/login: save session failed: %s", err)
+		return
+	}
+
+	log.Println("Logout")
+
+	c.Redirect(http.StatusFound, "/login")
+	return
 }
