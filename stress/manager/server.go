@@ -16,6 +16,7 @@ func Init() {
 	r.GET("/post", handler.PostViewHandler)
 	r.POST("/post", handler.PostInsertHandler)
 
+	r.GET("/shout/", handler.ShoutRandomHandler)
 	r.GET("/shout/:postId", handler.ShoutHandler)
 
 	r.GET("/register", handler.RegisterViewHandler)
