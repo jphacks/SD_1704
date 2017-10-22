@@ -2,16 +2,20 @@ package model
 
 import "database/sql"
 
-func InsertPost(db *sql.DB, description string, userId int64) error {
+func InsertPost(db *sql.DB, description string, userId int64) (int64, error) {
 	q := `insert into posts (description, user_id) values ($1,$2)`
 
 	stmt, err := db.Prepare(q)
 	if err != nil {
-		return err
+		return -1, err
 	}
 
-	_, err = stmt.Exec(description, userId)
-	return err
+	res, err := stmt.Exec(description, userId)
+	if err != nil {
+		return -1, err
+	}
+
+	return res.LastInsertId()
 }
 
 func GetPostsByUserId(db *sql.DB, userId int64) ([]Post, error) {
@@ -27,7 +31,7 @@ func GetPostsByUserId(db *sql.DB, userId int64) ([]Post, error) {
 		return nil, err
 	}
 
-	return 	ScanPosts(rows)
+	return ScanPosts(rows)
 }
 
 func GetPostById(db *sql.DB, Id int64) (Post, error) {
