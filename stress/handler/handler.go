@@ -13,18 +13,6 @@ import (
 
 func RootHandler(c *gin.Context) {
 
-	//以下は後で使います
-
-	//err := model.InsertUser(database.GetInstance().DB, "hoge", "mail", "pass")
-	//if err != nil {
-	//	log.Println(err)
-	//}
-	//
-	//err = model.InsertPost(database.GetInstance().DB, "カレーを飲む青年", 1)
-	//if err != nil {
-	//	log.Println(err)
-	//}
-
 	c.HTML(http.StatusOK, "index.html", gin.H{})
 }
 
@@ -35,11 +23,22 @@ func PostViewHandler(c *gin.Context) {
 		return
 	}
 
+	sess, err := sessions.Get(c.Request, "user")
+	if err != nil {
+		log.Println(err)
+	}
+
+	if sess.Values["id"] == nil {
+		c.HTML(http.StatusOK, "login.html", gin.H{})
+		return
+	}
+
 	//GET METHOD
 	c.HTML(http.StatusOK, "post.html", gin.H{})
 }
 
 func PostInsertHandler(c *gin.Context) {
+	//新規投稿
 	//POST METHOD
 	if c.Request.Method != "POST" {
 		c.Status(http.StatusBadRequest)
@@ -68,8 +67,7 @@ func PostInsertHandler(c *gin.Context) {
 		return
 	}
 
-	// TODO:マイページに飛ばす
-	c.HTML(http.StatusCreated, "index.html", gin.H{})
+	c.HTML(http.StatusCreated, "mypage.html", gin.H{})
 }
 
 func ShoutHandler(c *gin.Context) {
@@ -99,8 +97,6 @@ func RegisterInsertHandler(c *gin.Context) {
 		return
 	}
 
-	// TODO: 登録時もセッションを保つ
-
 	nickname, _ := c.GetPostForm("nickname")
 	email, _ := c.GetPostForm("email")
 	password, _ := c.GetPostForm("password")
@@ -112,9 +108,26 @@ func RegisterInsertHandler(c *gin.Context) {
 	err := model.InsertUser(database.GetInstance().DB, nickname, email, password)
 	if err != nil {
 		log.Println(err)
+		c.HTML(http.StatusOK, "register.html", gin.H{})
 	}
 
-	c.Redirect(http.StatusCreated, "/mypage")
+	sess, err := sessions.Get(c.Request, "user")
+	if err != nil {
+		log.Println(err)
+	}
+
+	user, err := model.GetUserByEmailAndPass(database.GetInstance().DB, email, password)
+
+	sess.Values["id"] = user.ID
+	sess.Values["nickname"] = user.Nickname
+
+	if err := sessions.Save(c.Request, c.Writer, sess); err != nil {
+		log.Printf("/login: save session failed: %s", err)
+		return
+	}
+
+	c.HTML(http.StatusCreated, "mypage.html", gin.H{})
+
 }
 
 func RegisterViewHandler(c *gin.Context) {
@@ -122,6 +135,16 @@ func RegisterViewHandler(c *gin.Context) {
 		c.Status(http.StatusBadRequest)
 		return
 	}
+
+	sess, err := sessions.Get(c.Request, "user")
+	if err != nil {
+		log.Println(err)
+	}
+	if sess.Values["id"] != nil {
+		c.HTML(http.StatusOK, "mypage.html", gin.H{})
+		return
+	}
+
 	c.HTML(http.StatusOK, "register.html", gin.H{})
 }
 
@@ -173,12 +196,56 @@ func LoginHandler(c *gin.Context) {
 	}
 
 	log.Println("Login")
-	c.Redirect(http.StatusFound, "/mypage")
+	c.HTML(http.StatusCreated, "mypage.html", gin.H{})
 }
 
 func LoginViewHandler(c *gin.Context) {
 	if c.Request.Method != "GET" {
 		c.Status(http.StatusBadRequest)
 	}
+
+	sess, err := sessions.Get(c.Request, "user")
+	if err != nil {
+		log.Println(err)
+	}
+	if sess.Values["id"] != nil {
+		c.HTML(http.StatusOK, "mypage.html", gin.H{})
+		return
+	}
+
 	c.HTML(http.StatusOK, "login.html", gin.H{})
+}
+
+func MyPageHandler(c *gin.Context) {
+	sess, err := sessions.Get(c.Request, "user")
+	if err != nil {
+		log.Println(err)
+	}
+
+	if sess.Values["id"] == nil {
+		c.HTML(http.StatusOK, "login.html", gin.H{})
+		return
+	}
+
+	c.HTML(http.StatusOK, "mypage.html", gin.H{})
+}
+
+func LogoutHandler(c *gin.Context) {
+	sess, err := sessions.Get(c.Request, "user")
+	if err != nil {
+		log.Println(err)
+	}
+
+	sess.Values["id"] = nil
+	sess.Values["nickname"] = nil
+
+	if err := sessions.Save(c.Request, c.Writer, sess); err != nil {
+		log.Printf("/login: save session failed: %s", err)
+		return
+	}
+
+	log.Println("Logout")
+
+	c.Redirect(http.StatusFound, "/login")
+	return
 }
