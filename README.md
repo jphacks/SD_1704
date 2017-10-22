@@ -7,10 +7,6 @@ https://youtu.be/xtW8jiXJ6IQ)
 ### Stress Tech
 
 ### 背景（製品開発のきっかけ、課題等）
-ここに
-- こんかいのプロダクトの開発に至った背景
-- 着目した顧客・顧客の課題・現状
-を記入してください
 - ストレスは誰しもが抱えているものであり、それを解消にすることにより、私たちは毎日がより楽しくなると考えます。
 - 顧客 : 世界中の人
 - 顧客の課題 : ストレスを持つ
@@ -38,11 +34,7 @@ https://youtu.be/xtW8jiXJ6IQ)
 ## 開発内容・開発技術
 ### 活用した技術
 #### API・データ
-今回スポンサーから提供されたAPI、製品などの外部技術があれば記述をして下さい。
-
-*
-*
-*
+* スポンサーから提供されたAPI等は使用していません
 
 #### フレームワーク・ライブラリ・モジュール
 * Go
@@ -50,9 +42,13 @@ https://youtu.be/xtW8jiXJ6IQ)
 * Vue.js
 * jQuery
 * Posgres
+* Scaneo
+* semantic UI
+* Gorilla
+
 
 #### デバイス
-* pc bworser
+* pc browser
 
 
 ### 研究内容・事前開発プロダクト（任意）
@@ -66,3 +62,5 @@ https://youtu.be/xtW8jiXJ6IQ)
 #### 2日間に開発した独自の機能・技術
 * 独自で開発したものの内容をこちらに記載してください
 * 特に力を入れた部分をファイルリンク、またはcommit_idを記載してください（任意）
+https://github.com/jphacks/SD_1704/blob/develop/stress/templates/shout.html
+
