@@ -28,7 +28,7 @@
     #sound-volume-progress .bar{
         height: 128px;
     }
-    #shout-page p{
+    #shout-page #word{
         text-align: center;
         font-size: 64px;
         padding: 0;
@@ -44,7 +44,7 @@
     }
 
     @media screen and (max-width: 880px) {
-        #shout-page p{
+        #shout-page #word{
             font-size: 56px;
         }
 
@@ -55,7 +55,7 @@
     }
 
     @media screen and (max-width: 767px) {
-        #shout-page p{
+        #shout-page #word{
             font-size: 44px;
         }
 
@@ -65,7 +65,7 @@
         }
     }
     @media screen and (max-width: 407px) {
-        #shout-page p{
+        #shout-page #word{
             font-size: 35px;
         }
 
@@ -79,11 +79,12 @@
 
 </head>
 <body>
-    {{template "global-navigator".}}
+
 
     <canvas id="canvas"></canvas>
-    <section id="shout-page">
 
+    <section id="shout-page">
+        {{template "global-navigator".}}
         <div class="ui two column stackable grid">
             <div class="three wide column none">
                 <div class="ui segment"></div>
@@ -94,7 +95,7 @@
                     <p id="word">
                         {{ .post.Description }}
                     </p>
-                    <h1 style="text-align: right">by {{ .createrName }}</h1>
+                    <h1 class="createName" style="text-align: right">by {{ .createrName }}</h1>
 
                     <div class="ui indicating progress" data-value="1" data-total="100" id="sound-volume-progress">
                         <div class="bar">
@@ -109,7 +110,6 @@
                 <div class="ui segment"></div>
             </div>
         </div>
-
 
     </section>
 
@@ -192,6 +192,7 @@
         function changeColorWordContainer(){
             $(".word-container").css("background-color", "rgba(0, 0, 0, 0.03)");
             $("#word").css("color", "rgba(255, 255, 255, 0.8)");
+            $(".createName").css("color", "rgba(255, 255, 255, 0.8)");
             $("#sound-volume-progress").css("border", "1px solid #ddd");
         }
 
