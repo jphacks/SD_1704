@@ -11,7 +11,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Semantic ui -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.js"></script>
-
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2/components/dropdown.min.js"></script>
     <!-- 作成したjsファイル -->
     <!-- <script type="text/javascript" src="GetShout.js"></script> -->
     <!-- ここにセマンティックUIのCDN -->
@@ -39,22 +39,24 @@
 
         (function(){
             $(".top-munu").append(
-                "<div class='right menu'>"+
-                "<div class='ui dropdown down item'>Categories"+
-                "<i class='dropdown icon'></i>"+
-                "<div class='menu'>"+
-                "<a href='/' class='item top-item'>トップページ</a>"+
-                "<a href='/shout' class='item top-item'>叫ぶ</a>"+
-                "<a href='/register' class='item top-item'>新規登録</a>"+
-                "<a href='/login' class='item top-item'>ログイン</a>"+
-                "<a href='/post' class='item top-item'>新規投稿</a>"+
-                "<a class='item'>Logout</a>"+
-                "<a class='item'>login/新規登録</a>"+
-                "</div>"+
-                "</div>"+
+                "<div class='right menu down'>"+
+                    "<div class='ui dropdown down item'>Categories"+
+                        "<i class='dropdown icon'></i>"+
+                        "<div class='menu'>"+
+                            "<a href='/' class='item'>トップページ</a>"+
+                            "<a href='/shout' class='item'>叫ぶ</a>"+
+                            "<a href='/register' class='item'>新規登録</a>"+
+                            "<a href='/login' class='item'>ログイン</a>"+
+                            "<a href='/post' class='item'>新規投稿</a>"+
+                            "<a class='item'>Logout</a>"+
+                            "<a class='item'>login/新規登録</a>"+
+                        "</div>"+
+                    "</div>"+
                 "</div>"
             );
             $(".top-munu .down").hide();
+            $('.ui.dropdown')
+                .dropdown();
         })();
 
         var switchNavUi = function(){
