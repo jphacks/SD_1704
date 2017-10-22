@@ -34,8 +34,7 @@
 </style>
 <header>
     <nav id="nav" class="ui secondary pointing menu top-munu">
-        <p class="item">hogehoge app</p>
-        <a href="/" class="item top-item p-top">トップページ</a>
+        <a href="/" class="item top-item p-top appname">hogehoge app</a>
         <a href="/shout" class="item top-item p-shout">叫ぶ</a>
         <a href="/post" class="item top-item p-post">新規投稿</a>
         <div class="right menu top-item">
@@ -67,11 +66,10 @@
                         "<div class='menu'>"+
                             "<a href='/' class='item'>トップページ</a>"+
                             "<a href='/shout' class='item'>叫ぶ</a>"+
-                            "<a href='/register' class='item'>新規登録</a>"+
                             "<a href='/login' class='item'>ログイン</a>"+
                             "<a href='/post' class='item'>新規投稿</a>"+
                             "<a class='item'>Logout</a>"+
-                            "<a class='item'>login/新規登録</a>"+
+                            "<a class='item'>新規登録</a>"+
                         "</div>"+
                     "</div>"+
                 "</div>"
@@ -138,6 +136,7 @@
                 $(".top-munu .top-item").show();
             } else {
                 $(".top-munu .top-item").hide();
+                $(".top-munu .appname").show();
                 $(".top-munu .down").show();
             }
         };
