@@ -132,6 +132,8 @@ func RegisterInsertHandler(c *gin.Context) {
 		c.HTML(http.StatusOK, "register.html", gin.H{})
 	}
 
+	log.Println("Insert")
+
 	sess, err := sessions.Get(c.Request, "user")
 	if err != nil {
 		log.Println(err)
@@ -146,9 +148,10 @@ func RegisterInsertHandler(c *gin.Context) {
 		log.Printf("/login: save session failed: %s", err)
 		return
 	}
+	log.Println("session save")
 
-	c.HTML(http.StatusCreated, "mypage.html", gin.H{})
-
+	log.Println("rdirect to mypage")
+	c.Redirect(http.StatusFound, "/mypage")
 }
 
 func RegisterViewHandler(c *gin.Context) {
@@ -217,7 +220,7 @@ func LoginHandler(c *gin.Context) {
 	}
 
 	log.Println("Login")
-	c.HTML(http.StatusCreated, "mypage.html", gin.H{})
+	c.Redirect(http.StatusFound, "/mypage")
 }
 
 func LoginViewHandler(c *gin.Context) {
@@ -230,7 +233,8 @@ func LoginViewHandler(c *gin.Context) {
 		log.Println(err)
 	}
 	if sess.Values["id"] != nil {
-		c.HTML(http.StatusOK, "mypage.html", gin.H{})
+		c.Redirect(http.StatusFound, "/mypage")
+		//c.HTML(http.StatusOK, "mypage.html", gin.H{})
 		return
 	}
 
