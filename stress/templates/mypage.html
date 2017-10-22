@@ -49,7 +49,16 @@
   {{template "header".}}
   {{template "global-navigator".}}
 
+  {{ range .posts }}
+  <p>{{ .Description }}</p>
+  <p>{{ .Created }}</p>
+  <hr>
+  {{ end }}
+
   <div id="app" class="mypage">
+
+      <div id="app">
+
     <script>
     notifyMe()
     </script>
