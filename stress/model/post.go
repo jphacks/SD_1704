@@ -14,6 +14,22 @@ func InsertPost(db *sql.DB, description string, userId int64) error {
 	return err
 }
 
+func GetPostsByUserId(db *sql.DB, userId int64) ([]Post, error) {
+	q := `select * from posts where user_id=$1`
+
+	stmt, err := db.Prepare(q)
+	if err != nil {
+		return nil, err
+	}
+
+	rows, err := stmt.Query(userId)
+	if err != nil {
+		return nil, err
+	}
+
+	return 	ScanPosts(rows)
+}
+
 func GetPostById(db *sql.DB, Id int64) (Post, error) {
 	q := `select * from posts where id=$1`
 
@@ -40,5 +56,4 @@ func GetRandomPost(db *sql.DB) (Post, error) {
 
 	err = stmt.QueryRow().Scan(&post.ID, &post.Description, &post.UserId, &post.Created)
 	return post, err
-
 }
