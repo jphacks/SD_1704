@@ -24,6 +24,8 @@ func Init() {
 	r.GET("/login", handler.LoginViewHandler)
 	r.POST("/login", handler.LoginHandler)
 
+	r.GET("/logout", handler.LogoutHandler)
+
 	r.GET("/mypage", handler.MyPageHandler)
 
 	r.Run(":" + config.GetInstance().PORT) // listen and serve on 0.0.0.0:8080
