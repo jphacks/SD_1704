@@ -28,7 +28,7 @@
     #sound-volume-progress .bar{
         height: 128px;
     }
-    #shout-page p{
+    #shout-page #word{
         text-align: center;
         font-size: 64px;
         padding: 0;
@@ -44,7 +44,7 @@
     }
 
     @media screen and (max-width: 880px) {
-        #shout-page p{
+        #shout-page #word{
             font-size: 56px;
         }
 
@@ -55,7 +55,7 @@
     }
 
     @media screen and (max-width: 767px) {
-        #shout-page p{
+        #shout-page #word{
             font-size: 44px;
         }
 
@@ -65,7 +65,7 @@
         }
     }
     @media screen and (max-width: 407px) {
-        #shout-page p{
+        #shout-page #word{
             font-size: 35px;
         }
 
@@ -79,11 +79,12 @@
 
 </head>
 <body>
-    {{template "global-navigator".}}
+
 
     <canvas id="canvas"></canvas>
-    <section id="shout-page">
 
+    <section id="shout-page">
+        {{template "global-navigator".}}
         <div class="ui two column stackable grid">
             <div class="three wide column none">
                 <div class="ui segment"></div>
@@ -94,7 +95,7 @@
                     <p id="word">
                         {{ .post.Description }}
                     </p>
-                    <h1 style="text-align: right">by {{ .createrName }}</h1>
+                    <h1 class="createName" style="text-align: right">by {{ .createrName }}</h1>
                     <a href="https://twitter.com/share" class="twitter-share-button" data-text="「{{ .post.Description }}」を叫んでストレスを発散しました！">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></a>
                     <div class="ui indicating progress" data-value="1" data-total="100" id="sound-volume-progress">
                         <div class="bar">
@@ -109,7 +110,6 @@
                 <div class="ui segment"></div>
             </div>
         </div>
-
 
     </section>
 
@@ -190,9 +190,16 @@
 
         // 合格したときの色　変更
         function changeColorWordContainer(){
+            var WHITE = "rgba(255, 255, 255, 0.8)";
             $(".word-container").css("background-color", "rgba(0, 0, 0, 0.03)");
-            $("#word").css("color", "rgba(255, 255, 255, 0.8)");
+            $("#word").css("color", WHITE);
+            $(".createName").css("color", WHITE);
+            $(".top-munu a").css("color", WHITE);
+            $(".top-munu p").css("color", WHITE);
+            $(".top-munu .down").css("color", WHITE);
+            $("header nav").css("border-bottom", "2px solid " + WHITE);
             $("#sound-volume-progress").css("border", "1px solid #ddd");
+            $(".top-munu .active").css("border-color", WHITE);
         }
 
         /***************************    ここから花火処理   ************************************/

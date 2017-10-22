@@ -27,13 +27,18 @@
 
 {{ define "global-navigator" }}
 <!-- ナビゲーションバーのHTMLをここに書く -->
+<style media="screen">
+    header{
+        margin-bottom: 25px;
+    }
+</style>
 <header>
     <nav id="nav" class="ui secondary pointing menu top-munu">
-        <p class="item active">hogehoge app</p>
-        <a href="/" class="active item top-item">トップページ</a>
-        <a href="/shout" class="item top-item">叫ぶ</a>
-        <a href="/post" class="item top-item">新規投稿</a>
-        <div class="right menu top-item">
+        <p class="item">hogehoge app</p>
+        <a href="/" class="item top-item p-top">トップページ</a>
+        <a href="/shout" class="item top-item p-shout">叫ぶ</a>
+        <a href="/register" class="item top-item p-register">新規登録</a>
+        <a href="/post" class="item top-item p-post">新規投稿</a>
             <a class="ui item" v-on:click="logoutClick()">Logout</a>
             <a href="/register" class="item top-item">新規登録</a>
             <a href="/login" class="item top-item">ログイン</a>
@@ -54,11 +59,10 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-
         (function(){
             $(".top-munu").append(
                 "<div class='right menu down'>"+
-                    "<div class='ui dropdown down item'>Categories"+
+                    "<div class='ui dropdown down item'>Menu"+
                         "<i class='dropdown icon'></i>"+
                         "<div class='menu'>"+
                             "<a href='/' class='item'>トップページ</a>"+
@@ -76,6 +80,56 @@
             $('.ui.dropdown')
                 .dropdown();
         })();
+
+
+        function getUrl(){
+            return location.href.split('/').pop();
+        }
+
+        function changeActive(topItem){
+            $(".top-item").removeClass("active");
+            topItem.addClass("active");
+            $(".top-munu .active").css("border-color", "#1B1C1D");
+        }
+
+        function wait(){
+            window.setTimeout(switchActive, 1);
+        }
+
+        function switchActive () {
+            switch (getUrl()){
+            case "":
+            console.log(getUrl());
+            changeActive($("a.p-top"));
+            break;
+            case "shout":
+            changeActive($("a.p-shout"));
+            break;
+            case "register":
+            changeActive($("a.p-register"));
+            break;
+            case "login":
+            changeActive($("a.p-login"));
+            break;
+            case "post":
+            changeActive($("a.p-post"));
+            break;
+            case "logout":
+            changeActive($("a.p-logout"));
+            break;
+            default:
+            changeActive($("a.p-shout"));
+            break;
+        }
+        };
+        wait();
+
+
+        $("a.top-item").on("click", function(){
+            aaa($(this));
+            console.log($("a.p-top"));
+            console.log($(this));
+        });
 
         var switchNavUi = function(){
             var w = window.innerWidth;
