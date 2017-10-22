@@ -63,14 +63,14 @@ func PostInsertHandler(c *gin.Context) {
 
 	userId := sess.Values["id"].(int64)
 
-	err = model.InsertPost(database.GetInstance().DB, text, userId)
+	id, err := model.InsertPost(database.GetInstance().DB, text, userId)
 	if err != nil {
 		log.Println(err)
-		c.Redirect(http.StatusFound, "/post")
+		c.Redirect(http.StatusFound, "/mypage")
 		return
 	}
 
-	c.HTML(http.StatusCreated, "mypage.html", gin.H{})
+	c.Redirect(http.StatusFound, fmt.Sprintf("%d", id))
 }
 
 func ShoutRandomHandler(c *gin.Context) {
@@ -81,7 +81,6 @@ func ShoutRandomHandler(c *gin.Context) {
 	}
 
 	c.Redirect(http.StatusFound, fmt.Sprintf("%d", post.ID))
-	//c.HTML()
 }
 
 func ShoutHandler(c *gin.Context) {
@@ -249,7 +248,23 @@ func MyPageHandler(c *gin.Context) {
 		return
 	}
 
-	c.HTML(http.StatusOK, "mypage.html", gin.H{})
+	userId := sess.Values["id"]
+
+	//uId, err := strconv.ParseInt(, 10, 64)
+	//if err != nil {
+	//	log.Println(err)
+	//}
+
+	posts, err := model.GetPostsByUserId(database.GetInstance().DB, userId.(int64))
+	if err != nil {
+		log.Println(err)
+	}
+
+	log.Println(posts)
+
+	c.HTML(http.StatusOK, "mypage.html", gin.H{
+		"posts": posts,
+	})
 }
 
 func LogoutHandler(c *gin.Context) {

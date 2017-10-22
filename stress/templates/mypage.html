@@ -50,6 +50,9 @@
   {{template "global-navigator".}}
 
   <div id="app" class="mypage">
+
+      <div id="app">
+
     <script>
     notifyMe()
     </script>
@@ -65,50 +68,20 @@
       <div class="ui segment">
         <div class="ui link cards">
 
-          <div class="ui card">
-            <div class="content">
-              <div class="description">
-                カレーを飲む青年
-              </div>
-              <div class="meta">
-                <span class="date">2017/10/22</span>
-              </div>
-            </div>
-          </div>
+          {{ range .posts }}
 
           <div class="ui card">
             <div class="content">
               <div class="description">
-                カレーを飲む青年
+                <p>{{ .Description }}</p>
               </div>
               <div class="meta">
-                <span class="date">2017/10/22</span>
+                <span class="date"><p>{{ .Created }}</p></span>
               </div>
             </div>
           </div>
 
-          <div class="ui card">
-            <div class="content">
-              <div class="description">
-                カレーを飲む青年
-              </div>
-              <div class="meta">
-                <span class="date">2017/10/22</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="ui card">
-            <div class="content">
-              <div class="description">
-                カレーを飲む青年
-              </div>
-              <div class="meta">
-                <span class="date">2017/10/22</span>
-              </div>
-            </div>
-          </div>
-
+          {{ end }}
         </div>
       </div>
 
