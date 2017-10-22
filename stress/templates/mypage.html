@@ -71,14 +71,14 @@
           {{ range .posts }}
 
           <div class="ui card">
-            <div class="content">
+            <a class="content" href="/shout/{{.ID}}">
               <div class="description">
                 <p>{{ .Description }}</p>
               </div>
               <div class="meta">
                 <span class="date"><p>{{ .Created }}</p></span>
               </div>
-            </div>
+            </a>
           </div>
 
           {{ end }}
