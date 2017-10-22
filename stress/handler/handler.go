@@ -135,6 +135,16 @@ func RegisterViewHandler(c *gin.Context) {
 		c.Status(http.StatusBadRequest)
 		return
 	}
+
+	sess, err := sessions.Get(c.Request, "user")
+	if err != nil {
+		log.Println(err)
+	}
+	if sess.Values["id"] != nil {
+		c.HTML(http.StatusOK, "mypage.html", gin.H{})
+		return
+	}
+
 	c.HTML(http.StatusOK, "register.html", gin.H{})
 }
 
@@ -193,6 +203,16 @@ func LoginViewHandler(c *gin.Context) {
 	if c.Request.Method != "GET" {
 		c.Status(http.StatusBadRequest)
 	}
+
+	sess, err := sessions.Get(c.Request, "user")
+	if err != nil {
+		log.Println(err)
+	}
+	if sess.Values["id"] != nil {
+		c.HTML(http.StatusOK, "mypage.html", gin.H{})
+		return
+	}
+
 	c.HTML(http.StatusOK, "login.html", gin.H{})
 }
 
