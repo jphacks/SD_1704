@@ -8,11 +8,14 @@ import (
 	"github.com/jphacks/SD_1704/stress/database"
 	"github.com/jphacks/SD_1704/stress/model"
 
+	"strconv"
+
+	"fmt"
+
 	"github.com/jphacks/SD_1704/stress/sessions"
 )
 
 func RootHandler(c *gin.Context) {
-
 	c.HTML(http.StatusOK, "index.html", gin.H{})
 }
 
@@ -70,10 +73,29 @@ func PostInsertHandler(c *gin.Context) {
 	c.HTML(http.StatusCreated, "mypage.html", gin.H{})
 }
 
+func ShoutRandomHandler(c *gin.Context) {
+	post, err := model.GetRandomPost(database.GetInstance().DB)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	c.Redirect(http.StatusFound, fmt.Sprintf("%d", post.ID))
+	//c.HTML()
+}
+
 func ShoutHandler(c *gin.Context) {
 	// 叫ぶ画面
+	postId := c.Param("postId")
+	pId, err := strconv.ParseInt(postId, 10, 64)
 
-	post, err := model.GetRandomPost(database.GetInstance().DB)
+	if err != nil {
+		c.Status(http.StatusNotFound)
+		return
+	}
+
+	post, err := model.GetPostById(database.GetInstance().DB, pId)
+
 	if err != nil {
 		log.Println(err)
 	}
