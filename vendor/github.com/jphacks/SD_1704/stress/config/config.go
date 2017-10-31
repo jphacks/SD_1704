@@ -14,7 +14,7 @@ var sharedInstance *configManager = newConfigManager()
 
 func newConfigManager() *configManager {
 	port := os.Getenv("PORT")
-	dbUrl := os.Getenv("DATABASE_URL")
+	dbUrl := os.Getenv("HEROKU_POSTGRESQL_SILVER_URL")
 	//dbUrl := "dbname=stress sslmode=disable"
 
 	//FIXME: sliceを使わなくてもいいようにしたい
