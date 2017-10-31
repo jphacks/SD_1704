@@ -111,6 +111,12 @@
 			"revisionTime": "2017-06-12T17:47:53Z"
 		},
 		{
+			"checksumSHA1": "Ge9dWlYqk14y8y7sd+f/XBINnAg=",
+			"path": "github.com/google/uuid",
+			"revision": "e367a344cbe8e08149f9951115dc299ebd42b919",
+			"revisionTime": "2017-10-19T17:36:51Z"
+		},
+		{
 			"checksumSHA1": "Thg9sicXr23/02y0VqmmJoEZIzI=",
 			"path": "github.com/gorilla/context",
 			"revision": "08b5f424b9271eedf6f9f0ce86cb9396ed337a42",
@@ -127,6 +133,48 @@
 			"path": "github.com/gorilla/sessions",
 			"revision": "a3acf13e802c358d65f249324d14ed24aac11370",
 			"revisionTime": "2017-10-08T21:47:40Z"
+		},
+		{
+			"checksumSHA1": "WdvTy8XhJ6EWoRVErGkLD1A2jT4=",
+			"path": "github.com/jphacks/SD_1704",
+			"revision": "50d175b13e547fb5bcf55e21249be9e49024e911",
+			"revisionTime": "2017-10-22T05:47:38Z"
+		},
+		{
+			"checksumSHA1": "3dh7N7a5/XOowKwqXCytA6wpI/o=",
+			"path": "github.com/jphacks/SD_1704/stress/config",
+			"revision": "50d175b13e547fb5bcf55e21249be9e49024e911",
+			"revisionTime": "2017-10-22T05:47:38Z"
+		},
+		{
+			"checksumSHA1": "/0PJWClC2c9JNP2WU9lHDHm6r9I=",
+			"path": "github.com/jphacks/SD_1704/stress/database",
+			"revision": "50d175b13e547fb5bcf55e21249be9e49024e911",
+			"revisionTime": "2017-10-22T05:47:38Z"
+		},
+		{
+			"checksumSHA1": "Jtwibs0G3/qfj4cew+YuTbLGSOI=",
+			"path": "github.com/jphacks/SD_1704/stress/handler",
+			"revision": "50d175b13e547fb5bcf55e21249be9e49024e911",
+			"revisionTime": "2017-10-22T05:47:38Z"
+		},
+		{
+			"checksumSHA1": "icdxCYMTx4HMZmMXnDEyXJ9d8eQ=",
+			"path": "github.com/jphacks/SD_1704/stress/manager",
+			"revision": "50d175b13e547fb5bcf55e21249be9e49024e911",
+			"revisionTime": "2017-10-22T05:47:38Z"
+		},
+		{
+			"checksumSHA1": "v0bESVRdpjhC37siaq2jEaB7spY=",
+			"path": "github.com/jphacks/SD_1704/stress/model",
+			"revision": "50d175b13e547fb5bcf55e21249be9e49024e911",
+			"revisionTime": "2017-10-22T05:47:38Z"
+		},
+		{
+			"checksumSHA1": "qcNxutehDGIsi4e4WWubyTb8O04=",
+			"path": "github.com/jphacks/SD_1704/stress/sessions",
+			"revision": "50d175b13e547fb5bcf55e21249be9e49024e911",
+			"revisionTime": "2017-10-22T05:47:38Z"
 		},
 		{
 			"checksumSHA1": "MWmIKeUU5J3ut4/eJcLLw0RiZLg=",
