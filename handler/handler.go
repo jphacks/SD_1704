@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/shimokp/wiki/sessions"
 
 	"strconv"
 
@@ -13,6 +12,7 @@ import (
 
 	"github.com/jphacks/SD_1704/database"
 	"github.com/jphacks/SD_1704/model"
+	"github.com/jphacks/SD_1704/sessions"
 )
 
 func RootHandler(c *gin.Context) {
