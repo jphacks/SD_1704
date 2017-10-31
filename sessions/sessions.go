@@ -6,7 +6,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/gorilla/sessions"
-	"github.com/jphacks/SD_1704/stress/model"
+	"github.com/jphacks/SD_1704/model"
 )
 
 // store is session store based on gorilla/sessions.

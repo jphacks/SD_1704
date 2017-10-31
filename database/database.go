@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"log"
 
-	"github.com/jphacks/SD_1704/stress/config"
+	"github.com/jphacks/SD_1704/config"
 	_ "github.com/lib/pq"
 )
 

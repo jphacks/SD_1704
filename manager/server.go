@@ -2,8 +2,8 @@ package manager
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/jphacks/SD_1704/stress/config"
-	"github.com/jphacks/SD_1704/stress/handler"
+	"github.com/jphacks/SD_1704/config"
+	"github.com/jphacks/SD_1704/handler"
 )
 
 func Init() {

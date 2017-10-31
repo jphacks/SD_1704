@@ -5,14 +5,14 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jphacks/SD_1704/stress/database"
-	"github.com/jphacks/SD_1704/stress/model"
+	"github.com/shimokp/wiki/sessions"
 
 	"strconv"
 
 	"fmt"
 
-	"github.com/jphacks/SD_1704/stress/sessions"
+	"github.com/jphacks/SD_1704/database"
+	"github.com/jphacks/SD_1704/model"
 )
 
 func RootHandler(c *gin.Context) {
