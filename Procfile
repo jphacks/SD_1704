@@ -1,1 +1,1 @@
-web: stress
+web: jphacks-stress
