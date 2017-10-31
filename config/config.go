@@ -4,6 +4,8 @@ import (
 	"log"
 	"os"
 	"reflect"
+
+	"github.com/lib/pq"
 )
 
 type configManager struct {
@@ -17,7 +19,10 @@ func newConfigManager() *configManager {
 	port := os.Getenv("PORT")
 	dbUrl := os.Getenv("HEROKU_POSTGRESQL_SILVER_URL")
 
-	log.Println("[DBURL]", dbUrl)
+	connection, _ := pq.ParseURL(dbUrl)
+	connection += " sslmode=require"
+
+	log.Println("[connection]", connection)
 	//dbUrl := "dbname=stress sslmode=disable"
 
 	//FIXME: sliceを使わなくてもいいようにしたい
@@ -27,7 +32,7 @@ func newConfigManager() *configManager {
 			panic("[FATAL]" + reflect.ValueOf(configManager{}).Type().Field(i).Name + " is not assign")
 		}
 	}
-	return &configManager{port, dbUrl}
+	return &configManager{port, connection}
 }
 
 func GetInstance() *configManager {
